@@ -716,11 +716,11 @@ const EducationSection = () => {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { lang: 'English', level: 'Professional', flag: '🇺🇸' },
-              { lang: 'Slovenian', level: 'Native', flag: '🇸🇮' },
-              { lang: 'German', level: 'Elementary', flag: '🇩🇪' },
-              { lang: 'Swedish', level: 'Elementary', flag: '🇸🇪' },
-              { lang: 'Norwegian', level: 'Elementary', flag: '🇳🇴' },
+              { lang: 'English', level: 'Professional' },
+              { lang: 'Slovenian', level: 'Native' },
+              { lang: 'German', level: 'Elementary' },
+              { lang: 'Swedish', level: 'Elementary' },
+              { lang: 'Norwegian', level: 'Elementary' },
             ].map((item, index) => (
               <motion.div
                 key={index}
@@ -730,10 +730,7 @@ const EducationSection = () => {
                 viewport={{ once: true }}
                 className="glass p-4 rounded-xl text-center"
               >
-                <div className="flex items-center justify-center gap-2">
-                  <span className="text-2xl" aria-hidden="true">{item.flag}</span>
-                  <p className="text-white font-semibold">{item.lang}</p>
-                </div>
+                <p className="text-white font-semibold">{item.lang}</p>
                 <p className="text-slate-400 text-sm">{item.level}</p>
               </motion.div>
             ))}
