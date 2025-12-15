@@ -3,8 +3,35 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { 
   Mail, Linkedin, Github, MapPin, ChevronDown, ExternalLink, 
   Code2, Server, Database, Cloud, Brain, Terminal, Award,
-  Briefcase, GraduationCap, Languages, Sparkles, Menu, X
+  Briefcase, GraduationCap, Languages as LanguagesIcon, Sparkles, Menu, X
 } from 'lucide-react'
+import { LanguageProvider, useLanguage } from './context/LanguageContext'
+import LanguageDropdown from './components/LanguageDropdown'
+
+// Helper to parse text with <highlight> tags
+const HighlightedText = ({ text }) => {
+  const parts = text.split(/(<highlight>|<\/highlight>)/)
+  let isHighlight = false
+  return (
+    <>
+      {parts.map((part, i) => {
+        if (part === '<highlight>') {
+          isHighlight = true
+          return null
+        }
+        if (part === '</highlight>') {
+          isHighlight = false
+          return null
+        }
+        return isHighlight ? (
+          <span key={i} className="text-blue-400 font-semibold">{part}</span>
+        ) : (
+          <span key={i}>{part}</span>
+        )
+      })}
+    </>
+  )
+}
 
 // Particle Background Component
 const ParticleBackground = () => {
@@ -39,6 +66,7 @@ const ParticleBackground = () => {
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { t } = useLanguage()
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50)
@@ -46,7 +74,13 @@ const Navigation = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const navItems = ['About', 'Skills', 'Experience', 'Projects', 'Contact']
+  const navItems = [
+    { key: 'about', label: t.nav.about },
+    { key: 'skills', label: t.nav.skills },
+    { key: 'experience', label: t.nav.experience },
+    { key: 'projects', label: t.nav.projects },
+    { key: 'contact', label: t.nav.contact },
+  ]
 
   return (
     <motion.nav
@@ -66,34 +100,38 @@ const Navigation = () => {
         </motion.a>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-6">
           {navItems.map((item) => (
             <motion.a
-              key={item}
-              href={`#${item.toLowerCase()}`}
+              key={item.key}
+              href={`#${item.key}`}
               className="text-slate-300 hover:text-blue-400 transition-colors font-medium"
               whileHover={{ y: -2 }}
             >
-              {item}
+              {item.label}
             </motion.a>
           ))}
+          <LanguageDropdown />
           <motion.a
             href="mailto:stele.miha@gmail.com"
             className="px-5 py-2 bg-gradient-to-r from-blue-600 to-blue-500 rounded-full text-white font-medium hover:shadow-lg hover:shadow-blue-500/30 transition-all"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            Hire Me
+            {t.nav.hireMe}
           </motion.a>
         </div>
 
-        {/* Mobile Menu Button */}
-        <button
-          className="md:hidden text-white"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        >
-          {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        {/* Mobile Nav - Language + Menu */}
+        <div className="md:hidden flex items-center gap-3">
+          <LanguageDropdown />
+          <button
+            className="text-white p-1"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu */}
@@ -108,12 +146,12 @@ const Navigation = () => {
             <div className="p-6 flex flex-col gap-4">
               {navItems.map((item) => (
                 <a
-                  key={item}
-                  href={`#${item.toLowerCase()}`}
+                  key={item.key}
+                  href={`#${item.key}`}
                   className="text-slate-300 hover:text-blue-400 transition-colors font-medium text-lg"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  {item}
+                  {item.label}
                 </a>
               ))}
             </div>
@@ -126,15 +164,15 @@ const Navigation = () => {
 
 // Hero Section Component
 const HeroSection = () => {
-  const roles = ['Software Engineer', 'Full-Stack Developer', 'DevOps Enthusiast', 'ML Practitioner']
+  const { t } = useLanguage()
   const [currentRole, setCurrentRole] = useState(0)
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentRole((prev) => (prev + 1) % roles.length)
+      setCurrentRole((prev) => (prev + 1) % t.hero.roles.length)
     }, 3000)
     return () => clearInterval(interval)
-  }, [])
+  }, [t.hero.roles.length])
 
   return (
     <section className="min-h-screen flex items-center justify-center relative overflow-hidden hex-pattern">
@@ -157,12 +195,12 @@ const HeroSection = () => {
               className="inline-flex items-center gap-2 px-4 py-2 glass-light rounded-full mb-6"
             >
               <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-              <span className="text-slate-300 text-sm">Available for opportunities</span>
+              <span className="text-slate-300 text-sm">{t.hero.available}</span>
             </motion.div>
 
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-4">
-              Hi, I'm{' '}
-              <span className="gradient-text">Miha Stele</span>
+              {t.hero.greeting}{' '}
+              <span className="gradient-text">{t.hero.name}</span>
             </h1>
 
             <div className="h-16 mb-6">
@@ -174,20 +212,18 @@ const HeroSection = () => {
                   exit={{ opacity: 0, y: -20 }}
                   className="text-2xl md:text-3xl text-blue-400 font-medium"
                 >
-                  {roles[currentRole]}
+                  {t.hero.roles[currentRole]}
                 </motion.p>
               </AnimatePresence>
             </div>
 
             <p className="text-slate-400 text-lg mb-8 max-w-xl leading-relaxed">
-              A lifelong learner with expertise in Software Development, DevOps, 
-              Machine Learning, and Cybersecurity. Building elegant solutions with 
-              modern technologies.
+              {t.hero.description}
             </p>
 
             <div className="flex items-center gap-4 mb-8">
               <MapPin className="text-blue-400" size={20} />
-              <span className="text-slate-300">Slovenia</span>
+              <span className="text-slate-300">{t.hero.location}</span>
             </div>
 
             <div className="flex flex-wrap gap-4">
@@ -198,7 +234,7 @@ const HeroSection = () => {
                 whileTap={{ scale: 0.95 }}
               >
                 <Mail size={20} />
-                Get In Touch
+                {t.hero.getInTouch}
               </motion.a>
               <motion.a
                 href="#projects"
@@ -206,7 +242,7 @@ const HeroSection = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                View Projects
+                {t.hero.viewProjects}
                 <ExternalLink size={20} />
               </motion.a>
             </div>
@@ -263,7 +299,7 @@ const HeroSection = () => {
                 animate={{ y: [0, -10, 0], rotate: [0, 5, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
               >
-                <span className="text-blue-400 font-bold">7+ Years</span>
+                <span className="text-blue-400 font-bold">{t.hero.yearsExp}</span>
               </motion.div>
 
               <motion.div
@@ -271,7 +307,7 @@ const HeroSection = () => {
                 animate={{ y: [0, 10, 0], rotate: [0, -5, 0] }}
                 transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
               >
-                <span className="text-green-400 font-bold">BSc CS</span>
+                <span className="text-green-400 font-bold">{t.hero.degree}</span>
               </motion.div>
             </div>
           </motion.div>
@@ -292,11 +328,12 @@ const HeroSection = () => {
 
 // About Section
 const AboutSection = () => {
+  const { t } = useLanguage()
   const stats = [
-    { label: 'Years Experience', value: '7+' },
-    { label: 'Technologies', value: '50+' },
-    { label: 'Projects Completed', value: '30+' },
-    { label: 'Certifications', value: '10+' },
+    { label: t.about.stats.yearsExp, value: '7+' },
+    { label: t.about.stats.technologies, value: '50+' },
+    { label: t.about.stats.projects, value: '30+' },
+    { label: t.about.stats.certifications, value: '10+' },
   ]
 
   return (
@@ -310,7 +347,7 @@ const AboutSection = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            About <span className="gradient-text">Me</span>
+            {t.about.title} <span className="gradient-text">{t.about.titleHighlight}</span>
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-indigo-500 mx-auto rounded-full" />
         </motion.div>
@@ -324,24 +361,13 @@ const AboutSection = () => {
             className="space-y-6"
           >
             <p className="text-slate-300 text-lg leading-relaxed">
-              I am a <span className="text-blue-400 font-semibold">lifelong learner</span> with 
-              extensive experience across the full spectrum of software development. From 
-              <span className="text-blue-400 font-semibold"> Web Development</span> and 
-              <span className="text-blue-400 font-semibold"> DevOps</span> to 
-              <span className="text-blue-400 font-semibold"> Machine Learning</span> and 
-              <span className="text-blue-400 font-semibold"> Cybersecurity</span>, I bring a 
-              holistic understanding to every project.
+              <HighlightedText text={t.about.p1} />
             </p>
             <p className="text-slate-300 text-lg leading-relaxed">
-              My journey began with electrical engineering fundamentals, evolved through a 
-              <span className="text-blue-400 font-semibold"> Bachelor's in Computer Science</span> from 
-              the University of Ljubljana, and continues through hands-on experience, courses, 
-              and constant exploration of emerging technologies.
+              <HighlightedText text={t.about.p2} />
             </p>
             <p className="text-slate-300 text-lg leading-relaxed">
-              I'm proficient in <span className="text-blue-400 font-semibold">Java, Python, JavaScript</span>, 
-              and many other languages, with professional experience in Linux, Docker, Jenkins, 
-              GitLab, Kubernetes, and cloud platforms like AWS, GCP, and Azure.
+              <HighlightedText text={t.about.p3} />
             </p>
           </motion.div>
 
@@ -374,39 +400,40 @@ const AboutSection = () => {
 
 // Skills Section
 const SkillsSection = () => {
+  const { t } = useLanguage()
   const skillCategories = [
     {
-      title: 'Languages',
+      title: t.skills.categories.languages,
       icon: Code2,
       color: 'from-blue-500 to-cyan-400',
       skills: ['JavaScript', 'Java', 'Python', 'SQL', 'Bash', 'C#', 'Ruby', 'C++', 'PHP'],
     },
     {
-      title: 'Frontend',
+      title: t.skills.categories.frontend,
       icon: Sparkles,
       color: 'from-purple-500 to-pink-400',
       skills: ['React.js', 'Vue.js', 'Angular', 'HTML5', 'CSS3', 'SASS', 'Tailwind'],
     },
     {
-      title: 'Backend',
+      title: t.skills.categories.backend,
       icon: Server,
       color: 'from-green-500 to-emerald-400',
       skills: ['Node.js', 'Laravel', 'REST APIs', 'GraphQL', 'Microservices'],
     },
     {
-      title: 'Databases',
+      title: t.skills.categories.databases,
       icon: Database,
       color: 'from-orange-500 to-yellow-400',
       skills: ['PostgreSQL', 'MySQL', 'MongoDB', 'Oracle DB', 'NoSQL', 'Redis'],
     },
     {
-      title: 'DevOps & Cloud',
+      title: t.skills.categories.devops,
       icon: Cloud,
       color: 'from-sky-500 to-blue-400',
       skills: ['Docker', 'Kubernetes', 'Jenkins', 'GitLab CI', 'AWS', 'GCP', 'Ansible'],
     },
     {
-      title: 'ML & AI',
+      title: t.skills.categories.ml,
       icon: Brain,
       color: 'from-rose-500 to-red-400',
       skills: ['PyTorch', 'TensorFlow', 'LLMs', 'Deep Learning', 'NLP'],
@@ -426,11 +453,11 @@ const SkillsSection = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Technical <span className="gradient-text">Skills</span>
+            {t.skills.title} <span className="gradient-text">{t.skills.titleHighlight}</span>
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-indigo-500 mx-auto rounded-full" />
           <p className="text-slate-400 mt-6 max-w-2xl mx-auto text-lg">
-            A comprehensive toolkit built over 7+ years of professional experience
+            {t.skills.subtitle}
           </p>
         </motion.div>
 
@@ -476,7 +503,7 @@ const SkillsSection = () => {
             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-400 flex items-center justify-center">
               <Terminal className="text-white" size={24} />
             </div>
-            <h3 className="text-xl font-bold text-white">Tools & Platforms</h3>
+            <h3 className="text-xl font-bold text-white">{t.skills.toolsTitle}</h3>
           </div>
           <div className="flex flex-wrap gap-3">
             {['Linux', 'Git', 'GitHub', 'GitLab', 'IntelliJ IDEA', 'VS Code', 'JIRA', 'VirtualBox', 
@@ -498,42 +525,13 @@ const SkillsSection = () => {
 
 // Experience Section
 const ExperienceSection = () => {
-  const experiences = [
-    {
-      title: 'Software Engineer',
-      company: 'SqualoMail Slovenija',
-      period: 'Aug 2025 - Present',
-      description: 'Full-stack development with modern technologies.',
-      tech: ['React.js', 'C#', 'SQL', 'JavaScript'],
-    },
-    {
-      title: 'Software Engineer',
-      company: 'PC7',
-      period: 'Feb 2024 - Jul 2025',
-      description: 'Full-Stack Software Development working with modern frameworks and cloud technologies.',
-      tech: ['Vue.js', 'Laravel', 'PHP', 'Node.js'],
-    },
-    {
-      title: 'IT Engineer Specialist',
-      company: 'Petrol Group',
-      period: 'Jun 2023 - Dec 2023',
-      description: 'CI/CD pipeline development and infrastructure management.',
-      tech: ['CI/CD', 'DevOps', 'Automation'],
-    },
-    {
-      title: 'Software Engineer',
-      company: 'Amebis d.o.o.',
-      period: 'May 2021 - Jun 2023',
-      description: 'Full Stack Development and Machine Learning applications for language technology solutions.',
-      tech: ['Python', 'PyTorch', 'Linux', 'SASS'],
-    },
-    {
-      title: 'Software Engineer & Test Automation',
-      company: 'Beenius',
-      period: 'Sep 2017 - May 2021',
-      description: 'Java development, test automation, and IPTV/OTT platform engineering.',
-      tech: ['Java', 'Jenkins', 'GitLab', 'MongoDB'],
-    },
+  const { t } = useLanguage()
+  const experienceTech = [
+    ['React.js', 'C#', 'SQL', 'JavaScript'],
+    ['Vue.js', 'Laravel', 'PHP', 'Node.js'],
+    ['CI/CD', 'DevOps', 'Automation'],
+    ['Python', 'PyTorch', 'Linux', 'SASS'],
+    ['Java', 'Jenkins', 'GitLab', 'MongoDB'],
   ]
 
   return (
@@ -547,7 +545,7 @@ const ExperienceSection = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Work <span className="gradient-text">Experience</span>
+            {t.experience.title} <span className="gradient-text">{t.experience.titleHighlight}</span>
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-indigo-500 mx-auto rounded-full" />
         </motion.div>
@@ -557,7 +555,7 @@ const ExperienceSection = () => {
           <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-600 via-indigo-500 to-blue-600 hidden md:block" />
 
           <div className="space-y-12">
-            {experiences.map((exp, index) => (
+            {t.experience.jobs.map((exp, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
@@ -581,7 +579,7 @@ const ExperienceSection = () => {
                     <p className="text-slate-400 font-medium mb-3">{exp.company}</p>
                     <p className="text-slate-400 mb-4">{exp.description}</p>
                     <div className="flex flex-wrap gap-2">
-                      {exp.tech.map((tech) => (
+                      {experienceTech[index]?.map((tech) => (
                         <span
                           key={tech}
                           className="px-3 py-1 bg-blue-600/20 text-blue-300 rounded-lg text-xs font-medium"
@@ -603,18 +601,7 @@ const ExperienceSection = () => {
 
 // Education & Certifications
 const EducationSection = () => {
-  const education = [
-    {
-      degree: "Bachelor's in Computer Science",
-      institution: 'University of Ljubljana, Faculty of Computer and Information Science',
-      period: '2015 - 2018',
-    },
-    {
-      degree: 'High School Diploma (Electrical Engineering)',
-      institution: 'Vegova Ljubljana',
-      period: '2011 - 2015',
-    },
-  ]
+  const { t } = useLanguage()
 
   const certifications = [
     'Meta Front-End Developer Certificate',
@@ -644,11 +631,11 @@ const EducationSection = () => {
               <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center">
                 <GraduationCap className="text-white" size={24} />
               </div>
-              <h3 className="text-3xl font-bold text-white">Education</h3>
+              <h3 className="text-3xl font-bold text-white">{t.education.title}</h3>
             </div>
 
             <div className="space-y-6">
-              {education.map((edu, index) => (
+              {t.education.degrees.map((edu, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, y: 20 }}
@@ -676,7 +663,7 @@ const EducationSection = () => {
               <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center">
                 <Award className="text-white" size={24} />
               </div>
-              <h3 className="text-3xl font-bold text-white">Certifications</h3>
+              <h3 className="text-3xl font-bold text-white">{t.education.certTitle}</h3>
             </div>
 
             <div className="glass rounded-2xl p-6">
@@ -709,19 +696,13 @@ const EducationSection = () => {
         >
           <div className="flex items-center gap-4 mb-8">
             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center">
-              <Languages className="text-white" size={24} />
+              <LanguagesIcon className="text-white" size={24} />
             </div>
-            <h3 className="text-3xl font-bold text-white">Languages</h3>
+            <h3 className="text-3xl font-bold text-white">{t.education.langTitle}</h3>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              { lang: 'English', level: 'Professional' },
-              { lang: 'Slovenian', level: 'Native' },
-              { lang: 'German', level: 'Elementary' },
-              { lang: 'Swedish', level: 'Elementary' },
-              { lang: 'Norwegian', level: 'Elementary' },
-            ].map((item, index) => (
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+            {t.education.languages.map((item, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -743,55 +724,16 @@ const EducationSection = () => {
 
 // Projects Section
 const ProjectsSection = () => {
-  const projects = [
-    {
-      title: 'Terminological Portal',
-      description: 'Slovenian terminology portal for linguistic research and reference.',
-      link: 'https://terminoloski.slovenscina.eu/',
-      tags: ['Web Development', 'NLP', 'Python'],
-    },
-    {
-      title: 'FormaSolve',
-      description: 'Professional website showcasing modern solutions and services.',
-      link: 'https://formasolve.com/',
-      tags: ['Web Development', 'Modern UI'],
-    },
-    {
-      title: 'Zdravilni Gaj',
-      description: 'Web application for health and wellness services.',
-      link: 'https://www.zdravilnigaj.si/',
-      tags: ['Full Stack', 'Web Development'],
-    },
-    {
-      title: 'Space Shooter',
-      description: 'Interactive space shooter game built with web technologies.',
-      link: 'https://mihastele.github.io/spaceshooter.html',
-      tags: ['Game Dev', 'JavaScript', 'Canvas'],
-    },
-    {
-      title: '2D Survivors',
-      description: 'Survival game inspired by Vampire Survivors genre.',
-      link: 'https://mihastele.github.io/survivors/2DSurvivors.html',
-      tags: ['Game Dev', 'JavaScript'],
-    },
-    {
-      title: 'Flexie Buddies',
-      description: 'Interactive web application with fun animations.',
-      link: 'https://mihastele.github.io/flexiebuddies_alpha/',
-      tags: ['Web App', 'Animation'],
-    },
-    {
-      title: 'Guided Sudoku',
-      description: 'Sudoku puzzle game with hints and guidance features.',
-      link: 'https://mihastele.github.io/guided-sudoku/',
-      tags: ['Puzzle', 'JavaScript', 'Logic'],
-    },
-    {
-      title: 'Tech Blog',
-      description: 'Personal blog sharing insights on technology and development.',
-      link: 'https://mist-blog.vercel.app/',
-      tags: ['Blog', 'Next.js', 'Vercel'],
-    },
+  const { t } = useLanguage()
+  const projectLinks = [
+    { link: 'https://terminoloski.slovenscina.eu/', tags: ['Web Development', 'NLP', 'Python'] },
+    { link: 'https://formasolve.com/', tags: ['Web Development', 'Modern UI'] },
+    { link: 'https://www.zdravilnigaj.si/', tags: ['Full Stack', 'Web Development'] },
+    { link: 'https://mihastele.github.io/spaceshooter.html', tags: ['Game Dev', 'JavaScript', 'Canvas'] },
+    { link: 'https://mihastele.github.io/survivors/2DSurvivors.html', tags: ['Game Dev', 'JavaScript'] },
+    { link: 'https://mihastele.github.io/flexiebuddies_alpha/', tags: ['Web App', 'Animation'] },
+    { link: 'https://mihastele.github.io/guided-sudoku/', tags: ['Puzzle', 'JavaScript', 'Logic'] },
+    { link: 'https://mist-blog.vercel.app/', tags: ['Blog', 'Next.js', 'Vercel'] },
   ]
 
   return (
@@ -805,19 +747,19 @@ const ProjectsSection = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Featured <span className="gradient-text">Projects</span>
+            {t.projects.title} <span className="gradient-text">{t.projects.titleHighlight}</span>
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-indigo-500 mx-auto rounded-full" />
           <p className="text-slate-400 mt-6 max-w-2xl mx-auto text-lg">
-            A selection of projects I've worked on
+            {t.projects.subtitle}
           </p>
         </motion.div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
+          {t.projects.items.map((project, index) => (
             <motion.a
               key={index}
-              href={project.link}
+              href={projectLinks[index]?.link}
               target="_blank"
               rel="noopener noreferrer"
               initial={{ opacity: 0, y: 50 }}
@@ -838,7 +780,7 @@ const ProjectsSection = () => {
               </h3>
               <p className="text-slate-400 mb-4">{project.description}</p>
               <div className="flex flex-wrap gap-2">
-                {project.tags.map((tag) => (
+                {projectLinks[index]?.tags.map((tag) => (
                   <span
                     key={tag}
                     className="px-3 py-1 bg-slate-800/50 text-slate-400 rounded-lg text-xs font-medium"
@@ -857,6 +799,7 @@ const ProjectsSection = () => {
 
 // Contact Section
 const ContactSection = () => {
+  const { t } = useLanguage()
   return (
     <section id="contact" className="py-32 relative hex-pattern">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-900/20 to-transparent" />
@@ -870,17 +813,16 @@ const ContactSection = () => {
           className="text-center"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Let's <span className="gradient-text">Connect</span>
+            {t.contact.title} <span className="gradient-text">{t.contact.titleHighlight}</span>
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-indigo-500 mx-auto rounded-full mb-8" />
           <p className="text-slate-400 text-lg mb-12 max-w-2xl mx-auto">
-            I'm always open to discussing new opportunities, interesting projects, 
-            or just having a chat about technology.
+            {t.contact.subtitle}
           </p>
 
           <div className="grid md:grid-cols-3 gap-6 mb-12">
             {[
-              { icon: Mail, label: 'Email', value: 'stele.miha@gmail.com', href: 'mailto:stele.miha@gmail.com' },
+              { icon: Mail, label: t.contact.email, value: 'stele.miha@gmail.com', href: 'mailto:stele.miha@gmail.com' },
               { icon: Linkedin, label: 'LinkedIn', value: '/in/mihastele', href: 'https://www.linkedin.com/in/mihastele' },
               { icon: Github, label: 'GitHub', value: '/mihastele', href: 'https://github.com/mihastele' },
             ].map((contact, index) => (
@@ -913,7 +855,7 @@ const ContactSection = () => {
             className="inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-blue-600 to-indigo-500 rounded-2xl text-white font-bold text-lg hover:shadow-2xl hover:shadow-blue-500/30 transition-all"
           >
             <Mail size={24} />
-            Send Me a Message
+            {t.contact.sendMessage}
           </motion.a>
         </motion.div>
       </div>
@@ -923,15 +865,16 @@ const ContactSection = () => {
 
 // Footer
 const Footer = () => {
+  const { t } = useLanguage()
   return (
     <footer className="py-8 border-t border-slate-800">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-slate-400 text-sm">
-            © {new Date().getFullYear()} Miha Stele. All rights reserved.
+            © {new Date().getFullYear()} Miha Stele. {t.footer.rights}
           </p>
           <p className="text-slate-500 text-sm">
-            Built with React, Tailwind CSS & Framer Motion
+            {t.footer.builtWith}
           </p>
         </div>
       </div>
@@ -942,20 +885,22 @@ const Footer = () => {
 // Main App Component
 function App() {
   return (
-    <div className="relative">
-      <ParticleBackground />
-      <Navigation />
-      <main>
-        <HeroSection />
-        <AboutSection />
-        <SkillsSection />
-        <ExperienceSection />
-        <EducationSection />
-        <ProjectsSection />
-        <ContactSection />
-      </main>
-      <Footer />
-    </div>
+    <LanguageProvider>
+      <div className="relative">
+        <ParticleBackground />
+        <Navigation />
+        <main>
+          <HeroSection />
+          <AboutSection />
+          <SkillsSection />
+          <ExperienceSection />
+          <EducationSection />
+          <ProjectsSection />
+          <ContactSection />
+        </main>
+        <Footer />
+      </div>
+    </LanguageProvider>
   )
 }
 
