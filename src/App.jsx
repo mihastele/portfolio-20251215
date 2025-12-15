@@ -103,7 +103,7 @@ const Navigation = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden glass mt-2 mx-4 rounded-2xl overflow-hidden"
+            className="md:hidden glass mt-2 mx-4 rounded-2xl overflow-hidden overflow-x-hidden max-w-[calc(100vw-2rem)]"
           >
             <div className="p-6 flex flex-col gap-4">
               {navItems.map((item) => (
@@ -720,6 +720,7 @@ const EducationSection = () => {
               { lang: 'Slovenian', level: 'Native' },
               { lang: 'German', level: 'Elementary' },
               { lang: 'Swedish', level: 'Elementary' },
+              { lang: 'Norwegian', level: 'Elementary' },
             ].map((item, index) => (
               <motion.div
                 key={index}
@@ -748,6 +749,12 @@ const ProjectsSection = () => {
       description: 'Slovenian terminology portal for linguistic research and reference.',
       link: 'https://terminoloski.slovenscina.eu/',
       tags: ['Web Development', 'NLP', 'Python'],
+    },
+    {
+      title: 'FormaSolve',
+      description: 'Professional website showcasing modern solutions and services.',
+      link: 'https://formasolve.com/',
+      tags: ['Web Development', 'Modern UI'],
     },
     {
       title: 'Zdravilni Gaj',
