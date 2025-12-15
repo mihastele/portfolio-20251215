@@ -5,7 +5,6 @@ import {
   Code2, Server, Database, Cloud, Brain, Terminal, Award,
   Briefcase, GraduationCap, Languages, Sparkles, Menu, X
 } from 'lucide-react'
-import avatarImg from '../public/avatar.png'
 
 // Particle Background Component
 const ParticleBackground = () => {
@@ -252,7 +251,7 @@ const HeroSection = () => {
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
               >
                 <img
-                  src={avatarImg}
+                  src="/avatar.png"
                   alt="Miha Stele"
                   className="w-full h-full object-cover"
                 />
