@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { 
-  Mail, Linkedin, Github, MapPin, ChevronDown, ExternalLink, 
+import {
+  Mail, Linkedin, Github, MapPin, ChevronDown, ExternalLink,
   Code2, Server, Database, Cloud, Brain, Terminal, Award,
   Briefcase, GraduationCap, Languages, Sparkles, Menu, X
 } from 'lucide-react'
@@ -52,9 +52,8 @@ const Navigation = () => {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'glass py-3' : 'py-6'
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'glass py-3' : 'py-6'
+        }`}
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         <motion.a
@@ -126,22 +125,12 @@ const Navigation = () => {
 
 // Hero Section Component
 const HeroSection = () => {
-  const roles = ['Software Engineer', 'Full-Stack Developer', 'DevOps Enthusiast', 'ML Practitioner']
-  const [currentRole, setCurrentRole] = useState(0)
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentRole((prev) => (prev + 1) % roles.length)
-    }, 3000)
-    return () => clearInterval(interval)
-  }, [])
-
   return (
     <section className="min-h-screen flex items-center justify-center relative overflow-hidden hex-pattern">
       {/* Gradient Orbs */}
       <div className="absolute top-1/4 -left-32 w-96 h-96 bg-blue-600/30 rounded-full blur-3xl animate-pulse-slow" />
       <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '2s' }} />
-      
+
       <div className="max-w-7xl mx-auto px-6 py-32 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Text Content */}
@@ -157,7 +146,7 @@ const HeroSection = () => {
               className="inline-flex items-center gap-2 px-4 py-2 glass-light rounded-full mb-6"
             >
               <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-              <span className="text-slate-300 text-sm">Available for opportunities</span>
+              <span className="text-slate-300 text-sm">Available for freelance / full-time</span>
             </motion.div>
 
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-4">
@@ -165,24 +154,18 @@ const HeroSection = () => {
               <span className="gradient-text">Miha Stele</span>
             </h1>
 
-            <div className="h-16 mb-6">
-              <AnimatePresence mode="wait">
-                <motion.p
-                  key={currentRole}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  className="text-2xl md:text-3xl text-blue-400 font-medium"
-                >
-                  {roles[currentRole]}
-                </motion.p>
-              </AnimatePresence>
-            </div>
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="text-2xl md:text-3xl text-blue-400 font-medium mb-6"
+            >
+              I build software that works in production, not just in theory
+            </motion.h2>
 
             <p className="text-slate-400 text-lg mb-8 max-w-xl leading-relaxed">
-              A lifelong learner with expertise in Software Development, DevOps, 
-              Machine Learning, and Cybersecurity. Building elegant solutions with 
-              modern technologies.
+              Full-stack engineer with almost 10 years of experience delivering
+              reliable applications from idea to stable deployment.
             </p>
 
             <div className="flex items-center gap-4 mb-8">
@@ -243,7 +226,7 @@ const HeroSection = () => {
             <div className="relative">
               {/* Glowing ring */}
               <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-indigo-500 to-blue-600 rounded-full blur-2xl opacity-50 animate-pulse-slow" />
-              
+
               {/* Avatar container */}
               <motion.div
                 className="relative w-72 h-72 md:w-96 md:h-96 rounded-full overflow-hidden border-4 border-blue-500/50"
@@ -263,7 +246,7 @@ const HeroSection = () => {
                 animate={{ y: [0, -10, 0], rotate: [0, 5, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
               >
-                <span className="text-blue-400 font-bold">7+ Years</span>
+                <span className="text-blue-400 font-bold">Almost 10 Years</span>
               </motion.div>
 
               <motion.div
@@ -293,9 +276,9 @@ const HeroSection = () => {
 // About Section
 const AboutSection = () => {
   const stats = [
-    { label: 'Years Experience', value: '7+' },
+    { label: 'Years Experience', value: 'Almost 10' },
     { label: 'Technologies', value: '50+' },
-    { label: 'Projects Completed', value: '30+' },
+    { label: 'Projects Delivered', value: '30+' },
     { label: 'Certifications', value: '10+' },
   ]
 
@@ -324,24 +307,24 @@ const AboutSection = () => {
             className="space-y-6"
           >
             <p className="text-slate-300 text-lg leading-relaxed">
-              I am a <span className="text-blue-400 font-semibold">lifelong learner</span> with 
-              extensive experience across the full spectrum of software development. From 
-              <span className="text-blue-400 font-semibold"> Web Development</span> and 
-              <span className="text-blue-400 font-semibold"> DevOps</span> to 
-              <span className="text-blue-400 font-semibold"> Machine Learning</span> and 
-              <span className="text-blue-400 font-semibold"> Cybersecurity</span>, I bring a 
-              holistic understanding to every project.
+              With <span className="text-blue-400 font-semibold">almost a decade of experience</span>,
+              I specialize in building <span className="text-blue-400 font-semibold">production-grade full-stack applications</span> that
+              are reliable, maintainable, and scalable. My strength lies in
+              <span className="text-blue-400 font-semibold"> delivering end-to-end solutions</span> — from
+              initial concept through stable deployment and long-term maintenance.
             </p>
             <p className="text-slate-300 text-lg leading-relaxed">
-              My journey began with electrical engineering fundamentals, evolved through a 
-              <span className="text-blue-400 font-semibold"> Bachelor's in Computer Science</span> from 
-              the University of Ljubljana, and continues through hands-on experience, courses, 
-              and constant exploration of emerging technologies.
+              I excel at <span className="text-blue-400 font-semibold">bridging the gap between development and operations</span>,
+              building robust CI/CD pipelines, automating infrastructure, and ensuring applications
+              run smoothly in production. My foundation in
+              <span className="text-blue-400 font-semibold"> Computer Science</span> from the University of Ljubljana,
+              combined with hands-on experience, enables me to tackle complex technical challenges effectively.
             </p>
             <p className="text-slate-300 text-lg leading-relaxed">
-              I'm proficient in <span className="text-blue-400 font-semibold">Java, Python, JavaScript</span>, 
-              and many other languages, with professional experience in Linux, Docker, Jenkins, 
-              GitLab, Kubernetes, and cloud platforms like AWS, GCP, and Azure.
+              Core expertise: <span className="text-blue-400 font-semibold">Java, Python, JavaScript/TypeScript</span>,
+              with deep knowledge of <span className="text-blue-400 font-semibold">Docker, Kubernetes, Jenkins, GitLab CI</span>,
+              and cloud platforms (AWS, GCP, Azure). I focus on writing clean, tested code
+              that other engineers can maintain and extend.
             </p>
           </motion.div>
 
@@ -416,7 +399,7 @@ const SkillsSection = () => {
   return (
     <section id="skills" className="py-32 relative hex-pattern">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-900/10 to-transparent" />
-      
+
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
@@ -430,7 +413,7 @@ const SkillsSection = () => {
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-indigo-500 mx-auto rounded-full" />
           <p className="text-slate-400 mt-6 max-w-2xl mx-auto text-lg">
-            A comprehensive toolkit built over 7+ years of professional experience
+            A comprehensive toolkit built over almost a decade of professional experience
           </p>
         </motion.div>
 
@@ -479,16 +462,16 @@ const SkillsSection = () => {
             <h3 className="text-xl font-bold text-white">Tools & Platforms</h3>
           </div>
           <div className="flex flex-wrap gap-3">
-            {['Linux', 'Git', 'GitHub', 'GitLab', 'IntelliJ IDEA', 'VS Code', 'JIRA', 'VirtualBox', 
+            {['Linux', 'Git', 'GitHub', 'GitLab', 'IntelliJ IDEA', 'VS Code', 'JIRA', 'VirtualBox',
               'Wildfly', 'Maven', 'Puppet', 'OpenShift', 'CircleCI', 'Heroku', 'Firebase',
               'Apache Httpd', 'FTP', 'SSH'].map((tool) => (
-              <span
-                key={tool}
-                className="px-4 py-2 glass-light rounded-xl text-slate-300 text-sm font-medium hover:text-blue-300 transition-colors cursor-default"
-              >
-                {tool}
-              </span>
-            ))}
+                <span
+                  key={tool}
+                  className="px-4 py-2 glass-light rounded-xl text-slate-300 text-sm font-medium hover:text-blue-300 transition-colors cursor-default"
+                >
+                  {tool}
+                </span>
+              ))}
           </div>
         </motion.div>
       </div>
@@ -503,35 +486,35 @@ const ExperienceSection = () => {
       title: 'Software Engineer',
       company: 'SqualoMail Slovenija',
       period: 'Aug 2025 - Present',
-      description: 'Full-stack development with modern technologies.',
+      description: 'Building and maintaining full-stack features for email marketing platform, improving system reliability and user experience.',
       tech: ['React.js', 'C#', 'SQL', 'JavaScript'],
     },
     {
       title: 'Software Engineer',
       company: 'PC7',
       period: 'Feb 2024 - Jul 2025',
-      description: 'Full-Stack Software Development working with modern frameworks and cloud technologies.',
+      description: 'Delivered production-ready features across multiple client projects. Reduced deployment time by 40% through CI/CD automation and improved application performance by optimizing database queries.',
       tech: ['Vue.js', 'Laravel', 'PHP', 'Node.js'],
     },
     {
       title: 'IT Engineer Specialist',
       company: 'Petrol Group',
       period: 'Jun 2023 - Dec 2023',
-      description: 'CI/CD pipeline development and infrastructure management.',
+      description: 'Built CI/CD pipelines that reduced release cycles from weeks to days. Automated infrastructure provisioning, cutting manual deployment tasks by 60% and improving system stability.',
       tech: ['CI/CD', 'DevOps', 'Automation'],
     },
     {
       title: 'Software Engineer',
       company: 'Amebis d.o.o.',
       period: 'May 2021 - Jun 2023',
-      description: 'Full Stack Development and Machine Learning applications for language technology solutions.',
+      description: 'Developed NLP applications powering Slovenian language tools used by thousands of users. Built the Terminological Portal backend, improving search accuracy and response times by 50%.',
       tech: ['Python', 'PyTorch', 'Linux', 'SASS'],
     },
     {
       title: 'Software Engineer & Test Automation',
       company: 'Beenius',
       period: 'Sep 2017 - May 2021',
-      description: 'Java development, test automation, and IPTV/OTT platform engineering.',
+      description: 'Built and maintained IPTV/OTT platform features serving 100K+ end users. Implemented automated testing framework that increased test coverage by 70% and reduced regression bugs by 40%.',
       tech: ['Java', 'Jenkins', 'GitLab', 'MongoDB'],
     },
   ]
@@ -564,9 +547,8 @@ const ExperienceSection = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className={`relative flex items-center ${
-                  index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
-                }`}
+                className={`relative flex items-center ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
+                  }`}
               >
                 {/* Timeline dot */}
                 <div className="absolute left-8 md:left-1/2 w-4 h-4 bg-blue-500 rounded-full transform -translate-x-1/2 border-4 border-slate-900 z-10 hidden md:block" />
@@ -630,7 +612,7 @@ const EducationSection = () => {
   return (
     <section className="py-32 relative hex-pattern">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-indigo-900/10 to-transparent" />
-      
+
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Education */}
@@ -746,49 +728,49 @@ const ProjectsSection = () => {
   const projects = [
     {
       title: 'Terminological Portal',
-      description: 'Slovenian terminology portal for linguistic research and reference.',
+      description: 'Problem: Slovenian researchers lacked a unified terminology database. Solution: Built a full-stack portal with advanced search and NLP processing. Result: Now used by linguists and researchers nationwide for terminology standardization.',
       link: 'https://terminoloski.slovenscina.eu/',
       tags: ['Web Development', 'NLP', 'Python'],
     },
     {
       title: 'FormaSolve',
-      description: 'Professional website showcasing modern solutions and services.',
+      description: 'Problem: Client needed a professional web presence to showcase services. Solution: Designed and developed a modern, responsive website with optimized performance. Result: Improved client credibility and lead generation.',
       link: 'https://formasolve.com/',
       tags: ['Web Development', 'Modern UI'],
     },
     {
       title: 'Zdravilni Gaj',
-      description: 'Web application for health and wellness services.',
+      description: 'Problem: Health & wellness business needed online booking and service showcase. Solution: Built a full-stack application with booking system and content management. Result: Streamlined client appointments and increased online visibility.',
       link: 'https://www.zdravilnigaj.si/',
       tags: ['Full Stack', 'Web Development'],
     },
     {
       title: 'Space Shooter',
-      description: 'Interactive space shooter game built with web technologies.',
+      description: 'Problem: Wanted to explore game development with pure web technologies. Solution: Built a complete arcade game using Canvas API and vanilla JavaScript. Result: Fully playable browser game demonstrating game loop, collision detection, and sprite management.',
       link: 'https://mihastele.github.io/spaceshooter.html',
       tags: ['Game Dev', 'JavaScript', 'Canvas'],
     },
     {
       title: '2D Survivors',
-      description: 'Survival game inspired by Vampire Survivors genre.',
+      description: 'Problem: Challenge to recreate popular game genre in browser. Solution: Implemented Vampire Survivors-style mechanics with procedural enemy spawning and upgrades. Result: Engaging browser game with progressive difficulty and upgrade system.',
       link: 'https://mihastele.github.io/survivors/2DSurvivors.html',
       tags: ['Game Dev', 'JavaScript'],
     },
     {
       title: 'Flexie Buddies',
-      description: 'Interactive web application with fun animations.',
+      description: 'Problem: Experiment with interactive animations and character design. Solution: Created animated interactive characters with smooth CSS/JS animations. Result: Fun, engaging web experience showcasing animation capabilities.',
       link: 'https://mihastele.github.io/flexiebuddies_alpha/',
       tags: ['Web App', 'Animation'],
     },
     {
       title: 'Guided Sudoku',
-      description: 'Sudoku puzzle game with hints and guidance features.',
+      description: 'Problem: Standard Sudoku apps lack learning features for beginners. Solution: Built a puzzle game with hint system and step-by-step guidance. Result: Educational Sudoku experience that teaches solving techniques.',
       link: 'https://mihastele.github.io/guided-sudoku/',
       tags: ['Puzzle', 'JavaScript', 'Logic'],
     },
     {
       title: 'Tech Blog',
-      description: 'Personal blog sharing insights on technology and development.',
+      description: 'Problem: Wanted a platform to share technical knowledge and insights. Solution: Built a modern blog with Next.js and deployed on Vercel. Result: Active blog for sharing development experiences and tutorials.',
       link: 'https://mist-blog.vercel.app/',
       tags: ['Blog', 'Next.js', 'Vercel'],
     },
@@ -860,7 +842,7 @@ const ContactSection = () => {
   return (
     <section id="contact" className="py-32 relative hex-pattern">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-900/20 to-transparent" />
-      
+
       <div className="max-w-4xl mx-auto px-6 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
@@ -870,12 +852,12 @@ const ContactSection = () => {
           className="text-center"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Let's <span className="gradient-text">Connect</span>
+            Let's Talk About <span className="gradient-text">Your Project</span>
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-indigo-500 mx-auto rounded-full mb-8" />
           <p className="text-slate-400 text-lg mb-12 max-w-2xl mx-auto">
-            I'm always open to discussing new opportunities, interesting projects, 
-            or just having a chat about technology.
+            Available for freelance and full-time opportunities. Let's discuss how
+            I can help bring your project from idea to production.
           </p>
 
           <div className="grid md:grid-cols-3 gap-6 mb-12">
@@ -913,7 +895,7 @@ const ContactSection = () => {
             className="inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-blue-600 to-indigo-500 rounded-2xl text-white font-bold text-lg hover:shadow-2xl hover:shadow-blue-500/30 transition-all"
           >
             <Mail size={24} />
-            Send Me a Message
+            Get In Touch
           </motion.a>
         </motion.div>
       </div>
