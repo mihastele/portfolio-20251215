@@ -276,7 +276,7 @@ const HeroSection = () => {
 // About Section
 const AboutSection = () => {
   const stats = [
-    { label: 'Years Experience', value: 'Almost 10' },
+    { label: 'Years Experience', value: 'Cca. 10' },
     { label: 'Technologies', value: '50+' },
     { label: 'Projects Delivered', value: '30+' },
     { label: 'Certifications', value: '10+' },
@@ -322,8 +322,8 @@ const AboutSection = () => {
             </p>
             <p className="text-slate-300 text-lg leading-relaxed">
               Core expertise: <span className="text-blue-400 font-semibold">Java, Python, JavaScript/TypeScript</span>,
-              with deep knowledge of <span className="text-blue-400 font-semibold">Docker, Kubernetes, Jenkins, GitLab CI</span>,
-              and cloud platforms (AWS, GCP, Azure). I focus on writing clean, tested code
+              with deep knowledge of <span className="text-blue-400 font-semibold">Docker, CI/CD pipelines, API, security</span>,
+              and <span className="text-blue-400 font-semibold">artificial intelligence</span>. I focus on writing clean, tested code
               that other engineers can maintain and extend.
             </p>
           </motion.div>
