@@ -164,7 +164,7 @@ const HeroSection = () => {
             </motion.h2>
 
             <p className="text-slate-400 text-lg mb-8 max-w-xl leading-relaxed">
-              Full-stack engineer with almost 10 years of experience delivering
+              Full-stack engineer with 10 years of experience delivering
               reliable applications from idea to stable deployment.
             </p>
 
@@ -246,7 +246,7 @@ const HeroSection = () => {
                 animate={{ y: [0, -10, 0], rotate: [0, 5, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
               >
-                <span className="text-blue-400 font-bold">Almost 10 Years</span>
+                <span className="text-blue-400 font-bold">10 Years</span>
               </motion.div>
 
               <motion.div
