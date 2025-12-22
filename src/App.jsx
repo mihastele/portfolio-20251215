@@ -276,7 +276,7 @@ const HeroSection = () => {
 // About Section
 const AboutSection = () => {
   const stats = [
-    { label: 'Years Experience', value: 'Cca. 10' },
+    { label: 'Years Experience', value: '10' },
     { label: 'Technologies', value: '50+' },
     { label: 'Projects Delivered', value: '30+' },
     { label: 'Certifications', value: '10+' },
