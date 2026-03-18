@@ -234,7 +234,7 @@ const HeroSection = () => {
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
               >
                 <img
-                  src="/avatar.png"
+                  src="/avatar.jpeg"
                   alt="Miha Stele"
                   className="w-full h-full object-cover"
                 />
